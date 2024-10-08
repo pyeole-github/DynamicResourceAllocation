@@ -1,0 +1,23 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.x
+    commands:
+      - pip install cfn-nag  # Install cfn-nag for template validation
+  pre_build:
+    commands:
+      - echo "Pre-build phase"
+  build:
+    commands:
+      - echo "Running cfn-nag scan..."
+      - cfn_nag_scan --input_path templates/main-template.yaml
+      - echo "cfn-nag scan complete."
+  post_build:
+    commands:
+      - echo "Build complete."
+artifacts:
+  files:
+    - cfn-nag-results/**/*  # Include any output files if needed
+
